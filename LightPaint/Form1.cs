@@ -16,6 +16,7 @@ namespace LightPaint
         Graphics graphics;
         SolidBrush brush;
         SolidBrush brush1;
+
         int x;
         int y;
         float secondAngle;//угол для отклонения веток
@@ -23,8 +24,7 @@ namespace LightPaint
         public Form1()
         {
             InitializeComponent();
-            //Связываем холст и PictureBox
-            graphics = pictureBox1.CreateGraphics();
+            graphics = pictureBox1.CreateGraphics();//Связываем холст и PictureBox
             brush = new SolidBrush(Color.PaleGoldenrod);//присваивание цвета кисти и инициализация объекта кисти
             brush1 = new SolidBrush(Color.Black);
         }
@@ -76,13 +76,13 @@ namespace LightPaint
             }
         }
 
-        void DrawLine(float x,float y,float angle,int length)
+        void DrawLine(float x, float y, float angle, int length)
         {
             if (length < 10)
                 return;
 
             float x1 = (float)Math.Cos(angle * (Math.PI / 180)) * length + x;
-            float y1= (float)Math.Sin(angle * (Math.PI / 180)) * length + y;
+            float y1 = (float)Math.Sin(angle * (Math.PI / 180)) * length + y;
             Pen pen = new Pen(brush, trackBar1.Value);
             if (length < 40)
                 pen.Color = brush1.Color;//верхняя крона другим цветом
@@ -93,13 +93,13 @@ namespace LightPaint
 
         }
 
-        void DrawGear(int count,int length)
+        void DrawGear(int count, int length)
         {
             float angle = -90;
             float secondAngle = 360 / count;
             int x = pictureBox1.Width / 2;
             int y = pictureBox1.Height / 2;
-            for(int i=0;i<=count;i++)
+            for (int i = 0; i <= count; i++)
             {
                 float x1 = (float)Math.Cos(angle * (Math.PI / 180)) * length + x;
                 float y1 = (float)Math.Sin(angle * (Math.PI / 180)) * length + y;
@@ -110,21 +110,59 @@ namespace LightPaint
             graphics.FillEllipse(brush, x - 80, y - 80, 160, 160);
             graphics.FillEllipse(new SolidBrush(Color.White), x - 20, y - 20, 40, 40);
         }
+        void DrawTree()
+        {
+            Point point1 = new Point(50, 150);
+            Point point2 = new Point(150, 50);
+            Point point3 = new Point(250, 150);
+
+            Point[] Points = { point1, point2, point3 };
+
+            graphics.FillPolygon(brush, Points);
+
+           Point point4 = new Point(50,200);
+            Point point5 = new Point(150,100);
+            Point point6 = new Point(250,200);
+
+            Point[] Points1 = { point4, point5, point6 };
+
+            graphics.FillPolygon(brush, Points1);
+
+            Point point7 = new Point(50, 250);
+            Point point8 = new Point(150, 150);
+            Point point9 = new Point(250, 250);
+
+            Point[] Points2 = { point7, point8, point9 };
+
+            graphics.FillPolygon(brush, Points2);
+
+            Rectangle rect = new Rectangle(140, 250,20, 50);
+            graphics.FillRectangle(new SolidBrush(Color.Brown), rect);
+
+
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             graphics = pictureBox1.CreateGraphics();//холст подстраиваем под размер экрана
             graphics.Clear(Color.White);
             secondAngle = (float)Convert.ToDouble(textBox1.Text);
             secondAngle *= -1;
-            DrawLine(pictureBox1.Width/2, pictureBox1.Height-40, -90, 100);
+            DrawLine(pictureBox1.Width / 2, pictureBox1.Height - 40, -90, 100);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)//Шестеренка
         {
             graphics = pictureBox1.CreateGraphics();
             graphics.Clear(Color.White);
             int count = Convert.ToInt32(textBox2.Text);
             DrawGear(count, 100);
+        }
+
+        private void button5_Click(object sender, EventArgs e)//Елка
+        {
+            graphics = pictureBox1.CreateGraphics();
+            graphics.Clear(Color.White);
+            DrawTree();
         }
     }
 }
